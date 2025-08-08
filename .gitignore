@@ -1,11 +1,9 @@
 # the to do list
 tdl.txt
 
-# the old app
+# the old app and unused templates
 app/old/
-
-# another template i'm too lazy to remove but may add
-app/templates/terminal.html
+app/unused/
 
 # other obvious shit
 .env
