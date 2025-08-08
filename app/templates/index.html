@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noah's Funny Link Shortener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Noah's Funny Link Shortener</h1>
+        <form id="shorten-form">
+            <input type="url" id="link" placeholder="Enter URL" required>
+            <input type="text" id="ending" placeholder="Custom ending" required>
+            <button type="submit">Shorten</button>
+        </form>
+        <br>
+
+        <div class="rules">
+            <h3>‼️ Site Rules</h3>
+            <ul>
+                <li>Don't be a dickhead, if you put malicious links on here I will find you and I will whoop your ass.</li>
+                <li>That aside, make sure all connections are on HTTPS when entering sensitive data. Use your head and don't enter your info in insecure places.</li>
+                <li>Keep your browser updated and use MalwareBytes if there's any downloads.</li>
+                <li>If you use this in any way I deem unfit, I will take action. I reserve the right to moderate content if I will get in trouble or I just don't want it on there.</li>
+            </ul>
+        </div>
+        <div id="result" align="center"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>

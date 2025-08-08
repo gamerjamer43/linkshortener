@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect Warning | Link Shortener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='warning.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="warning-icon">🛑</div>
+        <h1>STOP</h1>
+        
+        <p class="warning-text">
+            This website is not on our list of verified safe sites.<br>
+            Review the URL below and proceed carefully. Report any false positives.<br>
+            Also, use your head... if it's a malicious link... DON'T FUCKING CLICK IT. <strong>REPORT IT TO ME.</strong>
+        </p>
+        
+        <div class="url-display" id="targetUrl">
+            {{ target }}
+        </div>
+        
+        <div class="button-container">
+            <a href="/proceed/{{ ending }}" class="btn btn-proceed" id="proceedBtn">
+                Continue Safely...
+            </a>
+
+            <a href="/" class="btn btn-cancel">
+                Return Home
+            </a>
+        </div>
+        
+        <div class="countdown" id="countdown"></div>
+        
+        <div class="safety-tips">
+            <h3>‼️ Stay Safe Online</h3>
+            <ul>
+                <li>Don't be a dumbass, if this is revealing a malicious link to you let me fuckin know.</li>
+                <li>Look for HTTPS (secure) connections when entering sensitive data. Don't be an dumbass and enter your info in insecure places.</li>
+                <li>Keep your browser updated and use MalwareBytes</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='warning.js') }}"></script>
+</body>
+</html>

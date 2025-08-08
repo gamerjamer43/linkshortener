@@ -1,0 +1,13 @@
+# the to do list
+tdl.txt
+
+# the old app
+app/old/
+
+# another template i'm too lazy to remove but may add
+app/templates/terminal.html
+
+# other obvious shit
+.env
+__pycache__/
+.mypy_cache

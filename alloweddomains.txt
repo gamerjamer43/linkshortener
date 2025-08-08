@@ -1,0 +1,41 @@
+# THIS FILE MUST BE PRESENT FOR THE CODE TO RUN
+
+# common domains
+google.com
+youtube.com
+facebook.com
+twitter.com
+instagram.com
+linkedin.com
+reddit.com
+github.com
+stackoverflow.com
+wikipedia.org
+amazon.com
+ebay.com
+netflix.com
+spotify.com
+apple.com
+microsoft.com
+discord.com
+discord.gg
+twitch.tv
+tiktok.com
+pinterest.com
+tumblr.com
+medium.com
+quora.com
+paypal.com
+dropbox.com
+zoom.us
+slack.com
+notion.so
+figma.com
+canva.com
+
+# my personal list
+roblox.com
+minecraft.net
+epicgames.com
+steamcommunity.com
+ppy.sh
