@@ -39,21 +39,21 @@ def trusted(target: str) -> bool:
         return False
 
 # validates url and shortener, returns a response or the sanitized values
-def validate(link: str, shortener: str) -> Tuple[bool, Union[tuple[str, str], Response]]:
+def validate(link: str, shortener: str) -> Tuple[str, str] | Tuple[Response, int]:
     if not link or not shortener:
-        return False, jsonify({"error": "URL AND ending are required"}), 400
+        return jsonify({"error": "URL AND ending are required"}), 400
 
     ending: str = shortener.strip("/")
     if not ending:
-        return False, jsonify({"error": "Invalid ending after removing slashes"}), 400
+        return jsonify({"error": "Invalid ending after removing slashes"}), 400
 
     if not url(link):
-        return False, jsonify({"error": "Invalid URL format"}), 400
+        return jsonify({"error": "Invalid URL format"}), 400
 
     if ending.lower() in BANNED:
-        return False, jsonify({"error": f'"{ending}" is a reserved path and cannot be used.'}), 400
+        return jsonify({"error": f'"{ending}" is a reserved path and cannot be used.'}), 400
 
     if ".." in ending or any(c in ending for c in ["<", ">", '"', "'"]):
-        return False, jsonify({"error": "Invalid characters in ending"}), 400
+        return jsonify({"error": "Invalid characters in ending"}), 400
 
-    return True, (link, ending)
+    return link, ending

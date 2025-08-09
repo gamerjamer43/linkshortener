@@ -24,7 +24,7 @@ def shorten_url() -> tuple[Response, Literal[400]] | Response:
 
     # clean link, check if its a tuple
     clean: tuple | Response = validate(link, ending)
-    if isinstance(clean, tuple):
+    if isinstance(clean, tuple) and type(clean[0]) == str:
         link, ending = clean
 
     else:
