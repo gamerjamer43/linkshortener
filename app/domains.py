@@ -4,14 +4,18 @@
 from urllib.parse import urlparse, ParseResult # url parsing
 from tldextract import extract, ExtractResult  # safe domain extraciton
 from flask import jsonify, Response            # jsonify and the Response type (for mypy hinting)
+from typing import Tuple, Union                # FUCK THIS SHIT its only for one section of type checking
 from validators import url                     # url validator (cuz i will NOT roll my own)
 from pathlib import Path                       # for trusted domains file its used once
 
 # trusted domain map
-TRUSTED_DOMAINS: set[str] = {
+TRUSTED: set[str] = {
     line.strip() for line in Path("alloweddomains.txt").read_text().splitlines()  # read file and build a set from the lines
     if line.strip() and not line.startswith("#")                                  # strip empty lines and comments
 }
+
+# banned ending set
+BANNED: set[str] = {"static", "shorten", "proceed", ""}
 
 # checks if a URL is a trusted domain
 def trusted(target: str) -> bool:
@@ -29,32 +33,27 @@ def trusted(target: str) -> bool:
 
         # check if domain exactly matches a trusted domain
         domain: str = f"{ex.domain}.{ex.suffix}".lower()
-        return domain in TRUSTED_DOMAINS
+        return domain in TRUSTED
 
     except Exception:
         return False
 
 # validates url and shortener, returns a response or the sanitized values
-def validate(link: str, shortener: str) -> Response | tuple[str, str]:
-    # required fields
+def validate(link: str, shortener: str) -> Tuple[bool, Union[tuple[str, str], Response]]:
     if not link or not shortener:
-        return jsonify({"error": "URL and ending are required"}), 400
+        return False, jsonify({"error": "URL AND ending are required"}), 400
 
-    # sanitize ending
     ending: str = shortener.strip("/")
     if not ending:
-        return jsonify({"error": "Invalid ending after removing slashes"}), 400
+        return False, jsonify({"error": "Invalid ending after removing slashes"}), 400
 
-    # validate URL format
     if not url(link):
-        return jsonify({"error": "Invalid URL format"}), 400
+        return False, jsonify({"error": "Invalid URL format"}), 400
 
-    # banned words
-    if "static" in ending.lower():
-        return jsonify({"error": f'"{ending}" contains a banned word and cannot be used.'}), 400
+    if ending.lower() in BANNED:
+        return False, jsonify({"error": f'"{ending}" is a reserved path and cannot be used.'}), 400
 
-    # invalid characters and traversal
-    if ".." in ending or any(c in ending for c in ["<", ">", """, """]):
-        return jsonify({"error": "Invalid characters in ending"}), 400
+    if ".." in ending or any(c in ending for c in ["<", ">", '"', "'"]):
+        return False, jsonify({"error": "Invalid characters in ending"}), 400
 
-    return link, ending
+    return True, (link, ending)

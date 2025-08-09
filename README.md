@@ -97,6 +97,8 @@ Not quite sure WHY you would wanna contribute, but shit, I am welcome to it. Hit
 ## Planned Features
 * Full security, I kinda just made this functional for right now. Lacking full sanitization, a blocklist, 
 * Accounts allowing you to store links, and/or allowing you to have an editable ephermeral page that shows before redirects to your links.
+* Link expiry, allowing you to make temporary short links.
+* Potentially a CDN, allowing these short links to host a file? Would be a lot of storage though.
 * I can't think of what else to add because I don't want overhead. So we'll just say I'm adding... **more**, for right now at least.
 
 ## License
