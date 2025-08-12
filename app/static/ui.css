@@ -1,0 +1,277 @@
+/* static/ui.css — updated: focus improvements, result min-height, centering behavior */
+:root{
+  --bg:#070708;
+  --card:#0f1213;
+  --muted:#98a0a6;
+  --accent:#7ceea9;
+  --danger:#ff5a5f;
+  --glass: rgba(255,255,255,0.02);
+  --radius:12px;
+  --gap:12px;
+  --btn-min-width:140px;
+  --url-color: #ffd7d8; /* easier to tweak */
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;padding:0}
+body{
+  min-height:100vh;
+  background:linear-gradient(180deg,var(--bg),#050506);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  color:#e8eef0;
+  padding:28px;
+  display:flex;
+  justify-content:center;
+  /* center card vertically on most viewports for a cleaner look */
+  align-items:center;
+}
+
+/* -------- card wrapper (both pages) -------- */
+.card{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:28px;
+  border-radius:var(--radius);
+  background:linear-gradient(180deg,var(--card), rgba(255,255,255,0.02));
+  box-shadow:0 12px 40px rgba(0,0,0,0.6);
+  display:grid;
+  gap:var(--gap);
+}
+
+/* make sure both main wrappers center card (kept for semantics) */
+.card-app, .warn-app { width:100%; display:flex; justify-content:center; align-items:center; }
+
+/* if viewport height is small (mobile landscape or short windows) keep card near top */
+@media (max-height:720px) {
+  body { align-items:flex-start; }
+  .card-app, .warn-app { align-items:flex-start; }
+}
+
+/* -------- header -------- */
+.header{display:flex;gap:14px;align-items:center}
+.header .logo{
+  background:linear-gradient(90deg,var(--accent), #55dd8f);
+  color:#04210f;
+  font-weight:800;
+  padding:10px 12px;
+  border-radius:10px;
+  min-width:48px;
+  text-align:center;
+}
+.meta h1{margin:0;font-size:1.05rem}
+.subtitle{margin:0;color:var(--muted);font-size:0.95rem}
+
+/* -------- buttons (unified & specific) -------- */
+.btn,
+a.btn,
+button.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:12px;
+  font-weight:700;
+  line-height:1;
+  text-decoration:none;
+  border:0;
+  cursor:pointer;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card .btn, .card a.btn, .card button.btn { box-sizing: border-box !important; }
+
+/* primary: green pill (matches security page) */
+.card .btn.primary,
+.card a.btn.primary,
+.card button.btn.primary,
+.btn-proceed {
+  background:linear-gradient(90deg,var(--accent), #55dd8f);
+  color:#04210f;
+  box-shadow:0 10px 30px rgba(92,197,145,0.10);
+  min-width: var(--btn-min-width);
+  border-radius:14px;
+}
+.card .btn.primary:hover { transform:translateY(-2px); box-shadow:0 16px 36px rgba(92,197,145,0.13); }
+
+/* ghost / neutral */
+.card .btn.ghost,
+.card a.btn.ghost,
+.card button.btn.ghost,
+.btn-cancel {
+  background:transparent;
+  color:var(--muted);
+  border:1px solid rgba(255,255,255,0.04);
+  min-width: var(--btn-min-width);
+}
+.card a.btn.ghost:hover {
+  transform: translateY(-2px);
+  color: #e8eef0;
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* disabled style (for proceed during countdown) */
+.card .btn.disabled,
+.card .btn[aria-disabled="true"],
+.card .btn[disabled] {
+  opacity:.55;
+  pointer-events:none;
+  transform:none;
+  box-shadow:none;
+}
+
+/* ensure links styled as buttons behave same */
+a.btn { display:inline-flex; }
+
+/* small variant used for copy button */
+.btn.small { padding:8px 10px; min-width: 96px; }
+
+/* focus ring */
+.btn:focus, a.btn:focus, button.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(124,238,169,0.06);
+  transform: translateY(-1px);
+}
+
+/* accessible focus for keyboard users (inputs & links) */
+input:focus-visible, textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(124,238,169,0.06);
+}
+
+/* -------- forms / inputs -------- */
+input[type="url"], input[type="text"], textarea {
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.03);
+  background:var(--glass);
+  color:inherit;
+  font-size:1rem;
+  outline:none;
+}
+input:focus, textarea:focus{
+  box-shadow:0 6px 18px rgba(0,0,0,0.6) inset, 0 0 0 3px rgba(124,238,169,0.04);
+}
+
+/* controls alignment for index */
+.controls { display:flex; justify-content:flex-end; gap:12px; }
+
+/* -------- url/result box -------- */
+.url, #resultText, .url-display {
+  padding:12px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.02);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+  color:var(--url-color);
+  word-break:anywhere;
+  border:1px solid rgba(255,255,255,0.03);
+}
+
+/* reserve space to avoid layout shift */
+.result { min-height:64px; display:grid; grid-template-columns: 1fr auto; gap:12px; align-items:center; }
+.result .result-actions { display:flex; gap:8px; align-items:center; }
+
+/* make the shortened URL itself a clickable link visually when possible */
+#resultText a { color: #cfeef0; text-decoration:underline; }
+
+/* -------- rules / tips lists (fixed layout) -------- */
+.rules, .tips {
+  margin-top:12px;
+  text-align:left;
+  background:rgba(255,255,255,0.01);
+  padding:14px 18px;
+  border-radius:10px;
+  position:relative;
+}
+
+/* accent bar for "danger" style blocks (warning page) */
+.warning .rules::before,
+.tips.warning::before {
+  content: "";
+  position:absolute;
+  left:10px;
+  top:16px;
+  bottom:16px;
+  width:8px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(255,90,95,0.18), rgba(255,90,95,0.06));
+}
+
+/* normal subtle accent */
+.rules::before,
+.tips::before {
+  content: "";
+  position:absolute;
+  left:10px;
+  top:16px;
+  bottom:16px;
+  width:6px;
+  border-radius:6px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
+  opacity:.65;
+}
+
+/* headings */
+.rules h3, .tips h3 { margin:0 0 8px 0; color:var(--muted); font-size:0.98rem; }
+
+/* lists: remove inconsistent outer margins and set consistent padding */
+.rules ul, .rules ol, .tips ul {
+  margin:0;
+  padding-left:22px;      /* consistent left padding so bullets align */
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* list items spacing */
+.rules ul li, .tips ul li {
+  margin:8px 0;
+  padding-left:0;
+}
+
+/* marker color + size */
+.rules ul li::marker, .tips ul li::marker {
+  color:var(--muted);
+  opacity:.95;
+  font-size:1rem;
+}
+
+/* numbered lists: styled counters */
+.rules ol { counter-reset: list-counter; }
+.rules ol li {
+  list-style:none;
+  margin:10px 0;
+  padding-left:0;
+}
+.rules ol li::before {
+  counter-increment: list-counter;
+  content: counter(list-counter) ".";
+  display:inline-block;
+  min-width:30px;
+  text-align:center;
+  margin-right:10px;
+  color:var(--muted);
+  opacity:.95;
+  font-weight:700;
+}
+
+/* small alignment fixes for the left accent */
+.rules, .tips { padding-left:26px; }
+
+/* -------- warning-specific small tweaks -------- */
+.actions { display:flex; gap:12px; justify-content:center; }
+.countdown { color:var(--muted); font-weight:600; text-align:center; }
+
+/* responsive */
+@media (max-width:520px){
+  .card{ padding:18px; }
+  .btn, a.btn{ width:100%; min-width:0; }
+  .controls{ justify-content:stretch; }
+  .rules, .tips { padding-left:14px; }
+  .result { grid-template-columns: 1fr; }
+}

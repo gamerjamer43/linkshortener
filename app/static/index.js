@@ -1,49 +1,71 @@
-document.getElementById('shorten-form').addEventListener('submit', async function(e) {
-    // prevent default submission
+// index.js
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('shorten-form');
+  const resultDiv = document.getElementById('result');
+  const resultText = document.getElementById('resultText');
+  const copyBtn = document.getElementById('copyBtn');
+  const visitBtn = document.getElementById('visitBtn');
+
+  // keep result structure and buttons intact, update values instead of replacing HTML
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    // get everything special we need
-    const url = document.getElementById('link').value;
-    const ending = document.getElementById('ending').value;
-    const resultDiv = document.getElementById('result');
-    
-    // initial styling
-    resultDiv.innerHTML = `<p style="color: #ff9800;">Shortening...</p>`;
+    const url = document.getElementById('link').value.trim();
+    const ending = document.getElementById('ending').value.trim();
+
+    // show in-progress state
+    resultText.textContent = 'Shortening…';
     resultDiv.style.display = 'block';
-    
+    visitBtn.href = '#';
+    visitBtn.setAttribute('aria-disabled', 'true');
+
+    // then actually post, catch errors safely
     try {
-        // get response frm the api
-        const response = await fetch('/shorten', {
-            // headers
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-
-            // jsonify that shit
-            body: JSON.stringify({
-                url: url,
-                ending: ending
-            })
-        });
-        
-        const data = await response.json();
-        
-        // if we get a url
-        if (response.ok) {
-            resultDiv.innerHTML = `<p><a href="${data.shortened_url}" target="_blank" style="color: #007BFF;">${data.shortened_url}</a></p>`;
-        } 
-        
-        // otherwise if error
-        else {
-            resultDiv.innerHTML = `<p style="color: #ff6b6b;">Error: ${data.error}</p>`;
-        }
-
+      const res = await fetch('/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, ending })
+      });
     
+      // WOOHOO! WE DID IT!
+      const data = await res.json();
+      if (res.ok && data.shortened_url) {
+        // set text and buttons
+        resultText.textContent = data.shortened_url;
+        resultDiv.setAttribute('data-short', data.shortened_url);
+        visitBtn.href = data.shortened_url;
+        visitBtn.removeAttribute('aria-disabled');
+      } 
+      
+      else {
+        resultText.textContent = `Error: ${data.error || 'Unknown error'}`;
+        visitBtn.href = '#';
+        visitBtn.setAttribute('aria-disabled', 'true');
+      }
     } 
     
-    // double layered
-    catch (error) {
-        resultDiv.innerHTML = `<p style="color: #ff6b6b;">Error: Failed to shorten URL</p>`;
+    catch (err) {
+      resultText.textContent = 'Error: Failed to shorten URL';
+      visitBtn.href = '#';
+      visitBtn.setAttribute('aria-disabled', 'true');
     }
+  });
+
+  // copy button
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      const short = resultDiv.getAttribute('data-short') || resultText.textContent;
+      if (!short) return;
+
+      try {
+        await navigator.clipboard.writeText(short);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1400);
+      } 
+      
+      catch (e) {
+        copyBtn.textContent = 'Copy failed';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1400);
+      }
+    });
+  }
 });

@@ -1,34 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noah's Funny Link Shortener</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Noah · Link Shortener</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='ui.css') }}">
 </head>
-
 <body>
-    <div class="container">
-        <h1>Noah's Funny Link Shortener</h1>
-        <form id="shorten-form">
-            <input type="url" id="link" placeholder="Enter URL" required>
-            <input type="text" id="ending" placeholder="Custom ending" required>
-            <button type="submit">Shorten</button>
-        </form>
-        <br>
-
-        <div class="rules">
-            <h3>‼️ Site Rules</h3>
-            <ul>
-                <li>Don't be a dickhead, if you put malicious links on here I will find you and I will whoop your ass.</li>
-                <li>That aside, make sure all connections are on HTTPS when entering sensitive data. Use your head and don't enter your info in insecure places.</li>
-                <li>Keep your browser updated and use MalwareBytes if there's any downloads.</li>
-                <li>If you use this in any way I deem unfit, I will take action. I reserve the right to moderate content if I will get in trouble or I just don't want it on there.</li>
-            </ul>
+  <main class="card-app" role="main">
+    <div class="card">
+      <div class="header">
+        <div class="logo">noah.</div>
+        <div class="meta">
+          <h1>Noah's Link Shortener</h1>
+          <p class="subtitle">minimal • fast • no nonsense</p>
         </div>
-        <div id="result" align="center"></div>
-    </div>
+      </div>
 
-    <script src="{{ url_for('static', filename='index.js') }}"></script>
+      <form id="shorten-form" class="shorten" autocomplete="off" novalidate>
+        <label class="visually-hidden" for="link">URL</label>
+        <input id="link" name="link" type="url" placeholder="https://example.com/very/long/link" required>
+
+        <label class="visually-hidden" for="ending">Custom ending</label>
+        <!-- no longer required so server may generate one if left empty -->
+        <input id="ending" name="ending" type="text" placeholder="custom/end/domain" pattern="^[A-Za-z0-9_-]{1,40}$">
+
+        <br><br>
+        <div class="controls">
+          <button type="submit" class="btn primary">Shorten</button>
+        </div>
+      </form>
+
+      <div id="result" class="result" role="status" aria-live="polite" style="display: {{ 'block' if short_url else 'none' }};"> 
+        <div class="url" id="resultText">{{ short_url or '' }}</div>
+        <br>
+        <div class="result-actions">
+          <!-- fix these fucking buttons to match -->
+          <button id="copyBtn" class="btn ghost">Copy</button>
+          <a id="visitBtn" class="btn small" href="{{ short_url or '#' }}" target="_blank" rel="noopener noreferrer">Open</a>
+        </div>
+      </div>
+
+      <div class="rules">
+        <h3>Site rules</h3>
+        <ul>
+          <li>Don't post malicious links. Abuse will be handled.</li>
+          <li>Prefer HTTPS for sensitive data.</li>
+          <li>Keep your browser up-to-date.</li>
+          <li>I reserve the right to remove content that risks me legally.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 </html>
