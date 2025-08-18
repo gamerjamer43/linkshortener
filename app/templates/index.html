@@ -5,15 +5,29 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Noah · Link Shortener</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='ui.css') }}">
+
+  <!-- opengraph tags -->
+  <meta property="og:title" content="Hyprlinkd" />
+  <meta property="og:description" content="Quick, fast, and robust. This application is still a work in progress." />
+  <meta property="og:url" content="https://hyprlinkd.noahmingolel.li" />
+  <meta property="og:image" content="https://images.emojiterra.com/google/android-12l/512px/26a1.png" />
+  <meta property="og:type" content="website" />
+
+  <!-- discord sucks -->
+  <meta content="Hyprlinkd" property="og:title" />
+  <meta content="Quick, fast, and robust. This application is still a work in progress." property="og:description" />
+  <meta content="https://hyprlinkd.noahmingolel.li" property="og:url" />
+  <meta content="https://images.emojiterra.com/google/android-12l/512px/26a1.png" property="og:image" />
+  <meta content="#3da8ff" data-react-helmet="true" name="theme-color" />
 </head>
 <body>
   <main class="card-app" role="main">
     <div class="card">
       <div class="header">
-        <div class="logo">noah.</div>
+        <div class="logo">⚡</div>
         <div class="meta">
-          <h1>Noah's Link Shortener</h1>
-          <p class="subtitle">minimal • fast • no nonsense</p>
+          <h1>Hyprlinkd</h1>
+          <p class="subtitle">© 2025, Noah Mingolelli</p>
         </div>
       </div>
 
@@ -21,10 +35,26 @@
         <label class="visually-hidden" for="link">URL</label>
         <input id="link" name="link" type="url" placeholder="https://example.com/very/long/link" required>
 
+        <br><br>
         <label class="visually-hidden" for="ending">Custom ending</label>
-        <!-- no longer required so server may generate one if left empty -->
-        <input id="ending" name="ending" type="text" placeholder="custom/end/domain" pattern="^[A-Za-z0-9_-]{1,40}$">
+        <input id="ending" name="ending" type="text" placeholder="custom/end/domain">
 
+        <br><br>
+        <label class="visually-hidden" for="duration">Lifetime</label>
+        <br>
+        <select id="duration" name="duration">
+          <option value="∞">∞</option>
+          <option value="10min">10 minutes</option>
+          <option value="30min">30 minutes</option>
+          <option value="1hr">1 hour</option>
+          <option value="3hr">3 hours</option>
+          <option value="6hr">6 hours</option>
+          <option value="12hr">12 hours</option>
+          <option value="1d">1 day</option>
+          <option value="3d">3 days</option>
+          <option value="1w">1 week</option>
+        </select>
+        
         <br><br>
         <div class="controls">
           <button type="submit" class="btn primary">Shorten</button>
@@ -45,9 +75,9 @@
         <h3>Site rules</h3>
         <ul>
           <li>Don't post malicious links. Abuse will be handled.</li>
-          <li>Prefer HTTPS for sensitive data.</li>
+          <li>Use sites with HTTPS for sensitive data.</li>
           <li>Keep your browser up-to-date.</li>
-          <li>I reserve the right to remove content that risks me legally.</li>
+          <li>I reserve the right to nuke content off the platform that risks me legally.</li>
         </ul>
       </div>
     </div>

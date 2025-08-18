@@ -2,8 +2,9 @@
 # this file handles the redirection logic and trusted domain checks
 
 from flask import Blueprint, redirect, render_template, abort
-from ..ext import mongo
+from datetime import datetime, timezone
 from ..domains import trusted
+from ..ext import mongo
 
 redir: Blueprint = Blueprint("redirects", __name__)
 
@@ -13,6 +14,11 @@ def lookup(ending):
     record: str = mongo.db.urls.find_one({"ending": ending})
     if not record:
         abort(404, "URL not found")
+
+    # check if expired
+    if "expires" in record and datetime.now(timezone.utc) > record["expires"]:
+        mongo.db.urls.delete_one({"ending": ending})
+        abort(410, "URL has expired")
 
     # if its trusted, just redirect, add a no-ref header
     target = record["link"]

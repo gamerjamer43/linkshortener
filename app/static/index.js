@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const url = document.getElementById('link').value.trim();
     const ending = document.getElementById('ending').value.trim();
+    const duration = document.getElementById('duration').value;
 
     // show in-progress state
     resultText.textContent = 'Shortening…';
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/shorten', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, ending })
+        body: JSON.stringify({ url, ending, duration })
       });
     
       // WOOHOO! WE DID IT!
