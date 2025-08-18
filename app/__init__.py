@@ -5,6 +5,7 @@ from flask import Flask
 from .ext import mongo, limiter
 from .routes.main import main
 from .routes.redirect import redir
+from .routes.errors import errors, register
 
 # how we build the app, see wsgi.py
 def create_app(config_object="config.Config") -> Flask:
@@ -19,6 +20,10 @@ def create_app(config_object="config.Config") -> Flask:
     # finally register blueprints
     app.register_blueprint(main)
     app.register_blueprint(redir)
+    app.register_blueprint(errors)
+
+    # and the error handler (hid it behind a function to make it cleaner)
+    register(app)
 
     # and send er on back private
     return app

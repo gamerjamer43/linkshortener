@@ -16,9 +16,15 @@ def lookup(ending):
         abort(404, "URL not found")
 
     # check if expired
-    if "expires" in record and datetime.now(timezone.utc) > record["expires"]:
-        mongo.db.urls.delete_one({"ending": ending})
-        abort(410, "URL has expired")
+    if "expires" in record:
+        expires = record["expires"]
+
+        if expires.tzinfo is None:
+            expires = expires.replace(tzinfo=timezone.utc)
+        
+        if datetime.now(timezone.utc) > expires:
+            mongo.db.urls.delete_one({"ending": ending})
+            abort(404, "URL has expired")
 
     # if its trusted, just redirect, add a no-ref header
     target = record["link"]

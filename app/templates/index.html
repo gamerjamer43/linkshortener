@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Noah · Link Shortener</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='ui.css') }}">
+  <title>Hyprlinkd | Quick, secure, robust. </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ui.css') }}">
 
   <!-- opengraph tags -->
   <meta property="og:title" content="Hyprlinkd" />
-  <meta property="og:description" content="Quick, fast, and robust. This application is still a work in progress." />
+  <meta property="og:description" content="Quick, secure, and robust. This application is still a work in progress." />
   <meta property="og:url" content="https://hyprlinkd.noahmingolel.li" />
   <meta property="og:image" content="https://images.emojiterra.com/google/android-12l/512px/26a1.png" />
   <meta property="og:type" content="website" />
@@ -32,16 +32,19 @@
       </div>
 
       <form id="shorten-form" class="shorten" autocomplete="off" novalidate>
-        <label class="visually-hidden" for="link">URL</label>
+        <br><br>
+        <label for="link">URL</label>
+        <br><br>
         <input id="link" name="link" type="url" placeholder="https://example.com/very/long/link" required>
 
         <br><br>
-        <label class="visually-hidden" for="ending">Custom ending</label>
+        <label for="ending">Custom ending</label>
+        <br><br>
         <input id="ending" name="ending" type="text" placeholder="custom/end/domain">
 
         <br><br>
-        <label class="visually-hidden" for="duration">Lifetime</label>
-        <br>
+        <label for="duration">Lifetime</label>
+        <br><br>
         <select id="duration" name="duration">
           <option value="∞">∞</option>
           <option value="10min">10 minutes</option>
@@ -83,6 +86,6 @@
     </div>
   </main>
 
-  <script src="{{ url_for('static', filename='index.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>

@@ -50,7 +50,7 @@ def shorten_url() -> tuple[Response, Literal[400]] | Response:
     # check for temp link duration and tag it properly with the created time
     if duration is not None and duration in durations:
         print(datetime.now(timezone.utc))
-        doc.update({"duration": duration, "expires": datetime.now(timezone.utc) + durations[duration]})
+        doc.update({"expires": datetime.now(timezone.utc) + durations[duration]})
 
     # THEN insert the doc
     mongo.db.urls.insert_one(doc) # type: ignore[union-attr]

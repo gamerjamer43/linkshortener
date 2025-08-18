@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyprlinkd | {{ code }} Error</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}"
+</head>
+<body>
+  <div class="card">
+    <div class="error-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="15" y1="9" x2="9" y2="15"/>
+        <line x1="9" y1="9" x2="15" y2="15"/>
+      </svg>
+    </div>
+    
+    <h1 class="error-code"> {{ code }}</h1>
+    <h2 class="error-title">{{ title }}</h2>
+    <p class="error-description">{{ description }}</p>
+    
+    <div class="error-details">
+      <h4>Requested URL:</h4>
+      <p id="requestedUrl"></p>
+    </div>
+    
+    <div class="actions">
+      <a href="/" class="btn primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+        Go Home
+      </a>
+      <a href="javascript:history.back()" class="btn ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m12 19-7-7 7-7"/>
+          <path d="M19 12H5"/>
+        </svg>
+        Go Back
+      </a>
+    </div>
+    
+    <div class="footer-info">
+      <p>Error Code: {{ code }} • Time: <span id="timestamp"></span></p>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/error.js') }}"></script>
+</body>
+</html>
