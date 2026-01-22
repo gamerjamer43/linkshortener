@@ -1,4 +1,9 @@
-# Hyprlinkd 🚧 WIP
+## This project is no longer being actively maintained.
+I have no real motivation to work on this cuz a million different alternatives exist. But it's cool and it works so here you go!
+
+---
+
+# Hyprlinkd
 
 A simple, fast,  URL shortening service built with Python & Flask.
 CURRENTLY A WORK IN PROGRESS — many features are incomplete or unstable.
